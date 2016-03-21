@@ -1,0 +1,15 @@
+<configuration>
+  <property name="ROOT_LEVEL" value="TRACE" />
+
+  <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
+    <encoder>
+      <pattern>%d [%level] [%file:%line] [%thread] - %msg%n</pattern>
+    </encoder>
+  </appender>
+
+  <logger name="STDOUT" level="INFO" />
+
+  <root level="INFO">
+    <appender-ref ref="STDOUT" />
+  </root>
+</configuration>

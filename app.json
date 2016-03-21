@@ -1,0 +1,10 @@
+{
+  "name": "feedly-item-marker",
+  "description": "Mark extra feedly item as read",
+  "repository": "https://github.com/thrakt/FeedlyItemMarker",
+  "image": "heroku/java",
+  "env": {
+    CLIENT_SECRET: "",
+    REFRESH_TOKEN: ""
+  }
+}
