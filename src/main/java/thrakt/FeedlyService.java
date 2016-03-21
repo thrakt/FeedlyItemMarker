@@ -5,6 +5,8 @@ import java.util.function.Function;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpEntity;
@@ -24,6 +26,9 @@ import thrakt.entity.TokenResponse;
 
 @Component
 public class FeedlyService {
+
+    private static final Logger LOG = LoggerFactory
+            .getLogger(FeedlyService.class);
 
     @Autowired
     private RestTemplate restTemplate;
@@ -45,16 +50,21 @@ public class FeedlyService {
             throw new RuntimeException("required enviroment: CLIENT_SECRET");
         }
 
+        LOG.info("get access token.");
         String accessToken = this.getFeedlyAccessToken();
 
+        LOG.info("get user id.");
         String userId = this.getUserId(accessToken);
 
+        LOG.info("get items.");
         List<FeedlyItem> items = this.getItems(userId, accessToken);
 
+        LOG.info("start check items.");
         List<String> markIdList = Stream.of(filter).map(f -> f.apply(items))
                 .flatMap(List::stream).map(FeedlyItem::getId).distinct()
                 .collect(Collectors.toList());
 
+        LOG.info("mark extra items.");
         this.markAsReadEntities(markIdList, accessToken);
 
         return markIdList.size();
