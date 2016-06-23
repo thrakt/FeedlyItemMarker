@@ -30,6 +30,7 @@ public class SortingItemFilters {
 
     public static final Function<List<FeedlyItem>, List<FeedlyItem>> adsFilter = items -> items
             .stream()
+            .filter(i -> i.getTitle() != null)
             .filter(i -> i.getTitle().toUpperCase()
                     .matches("^((PR:)|(AD:)|(\\[PR\\])).*"))
             .collect(Collectors.toList());
