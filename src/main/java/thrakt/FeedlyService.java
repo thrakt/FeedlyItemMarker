@@ -1,5 +1,6 @@
 package thrakt;
 
+import java.util.Collections;
 import java.util.List;
 import java.util.function.Function;
 import java.util.stream.Collectors;
@@ -113,9 +114,12 @@ public class FeedlyService {
         StreamsContentsResponse contentsResponse = restTemplate.exchange(
                 "https://cloud.feedly.com/v3/streams/contents?streamId=user/"
                         + userId + "/category/global.all"
-                        + "&count=1000&ranked=oldest&unreadOnly=true",
+                        + "&count=1000&unreadOnly=true",
                 HttpMethod.GET, requestEntity, StreamsContentsResponse.class)
                 .getBody();
+
+        // banging reverse for sorting by time
+        Collections.reverse(contentsResponse.getItems());
 
         return contentsResponse.getItems();
     }
